@@ -2,7 +2,12 @@
     <ul>
         <li><a href="/">Accueil</a></li>
         <li><a href="/">Contact</a></li>
-        <li><a href="/">A Propos</a></li>
-        <li><a href="/">Connexion</a></li>
+        {% if app.user %}
+            <li><a href="/profil">Profil</a></li>
+            <li><a href="/deconnexion">Deconnexion</a></li>
+        {% else %}
+            <li><a href="/connexion">Connexion</a></li>
+            <li><a href="/authentification">Inscription</a></li>
+        {% endif %}
     </ul>
 </nav>

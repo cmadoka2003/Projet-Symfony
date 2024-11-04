@@ -1,0 +1,21 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    {% if errorMessage is defined %}
+        {{errorMessage}}
+    {% endif %}
+    
+    {{ form_start(form) }}
+
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email, { full_name: "email" }) }}
+        {{ form_errors(form.email) }}
+
+        {{ form_label(form.password) }}
+        {{ form_widget(form.password, { full_name: "password" }) }}
+        {{ form_errors(form.password) }}
+
+    {{ form_end(form) }}
+{% endblock %}
