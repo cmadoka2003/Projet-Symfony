@@ -1,0 +1,37 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Update Profil{% endblock %}
+
+{% block body %}
+    <h1>MODIFIER LE PROFIL</h1>
+    {{ form_start(form) }}
+
+        <div>
+            {{ form_row(form.avatar) }}
+        </div>
+        
+        <div>
+            {{ form_label(form.pseudo) }}
+            {{ form_widget(form.pseudo) }}
+            {{ form_errors(form.pseudo) }}
+
+            {{ form_label(form.emploi) }}
+            {{ form_widget(form.emploi) }}
+            {{ form_errors(form.emploi) }}
+
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description) }}
+            {{ form_errors(form.description) }}
+
+            {{ form_label(form.phone) }}
+            {{ form_widget(form.phone) }}
+            {{ form_errors(form.phone) }}
+
+            {{ form_label(form.siteURL) }}
+            {{ form_widget(form.siteURL) }}
+            {{ form_errors(form.siteURL) }}
+        </div>
+        
+
+    {{ form_end(form) }}
+{% endblock %}
