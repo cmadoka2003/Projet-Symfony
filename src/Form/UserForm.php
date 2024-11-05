@@ -38,8 +38,3 @@ class UserForm extends AbstractType
         $builder->get('pseudo')->setRequired(false);
     }
 }
-
-// 'constraints' => [
-//                     new Assert\NotBlank(["message" => "vous devez remplir le mot de passe"]),
-//                     new Assert\Length(["min" => 6, "minMessage" => "mot de passe trop court"])
-//                 ]
