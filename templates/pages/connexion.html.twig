@@ -2,10 +2,16 @@
 
 {% block title %}Connexion{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href={{ asset('styles/connexion.css') }}>
+{% endblock %}
+
 {% block body %}
-    {% if errorMessage is defined %}
-        {{errorMessage}}
-    {% endif %}
+    {% for message in app.flashes('compte-error') %}
+        <div class="message-error">
+            <p>{{message}}</p>
+        </div>
+	{% endfor %}
     
     {{ form_start(form) }}
 

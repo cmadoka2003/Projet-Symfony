@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type as Types;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\File;
 
 class ProfilForm extends AbstractType
 {
@@ -18,7 +17,7 @@ class ProfilForm extends AbstractType
                 'required' => false,
                 'mapped'=>false,
                 'constraints' => [
-                    new File(["extensions" => ["jpg", "png"], 'mimeTypesMessage' => 'format jpg/png seulement',])
+                    new Assert\File(["extensions" => ["jpg", "png"], 'mimeTypesMessage' => 'format jpg/png seulement',])
                 ]
             ])
             ->add('pseudo', Types\TextType::class, [

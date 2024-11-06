@@ -6,8 +6,7 @@
         {% block stylesheets %}
         {% endblock %}
 
-        {% block javascripts %}
-        {% endblock %}
+        <script src={{ asset('js/style.js') }}></script>
     </head>
     <body>
         {% include 'composants/navbar.html.twig' %}

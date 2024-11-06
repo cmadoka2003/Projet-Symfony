@@ -2,36 +2,50 @@
 
 {% block title %}Update Profil{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href={{ asset('styles/update.css') }}>
+{% endblock %}
+
+
 {% block body %}
     <h1>MODIFIER LE PROFIL</h1>
     {{ form_start(form) }}
 
-        <div>
-            {{ form_row(form.avatar) }}
-        </div>
-        
-        <div>
+            {{ form_label(form.avatar) }}
+            {{ form_widget(form.avatar) }}
+            <div class="error">
+                {{ form_errors(form.avatar) }}
+            </div>
+
             {{ form_label(form.pseudo) }}
             {{ form_widget(form.pseudo) }}
-            {{ form_errors(form.pseudo) }}
+            <div class="error">
+                {{ form_errors(form.pseudo) }}
+            </div>
 
             {{ form_label(form.emploi) }}
             {{ form_widget(form.emploi) }}
-            {{ form_errors(form.emploi) }}
+            <div class="error">
+                {{ form_errors(form.emploi) }}
+            </div>
 
             {{ form_label(form.description) }}
             {{ form_widget(form.description) }}
-            {{ form_errors(form.description) }}
+            <div class="error">
+                {{ form_errors(form.description) }}
+            </div>
 
             {{ form_label(form.phone) }}
             {{ form_widget(form.phone) }}
-            {{ form_errors(form.phone) }}
+            <div class="error">
+                {{ form_errors(form.phone) }}
+            </div>
 
             {{ form_label(form.siteURL) }}
             {{ form_widget(form.siteURL) }}
-            {{ form_errors(form.siteURL) }}
-        </div>
-        
+            <div class="error">
+                {{ form_errors(form.siteURL) }}
+            </div>
 
     {{ form_end(form) }}
 {% endblock %}

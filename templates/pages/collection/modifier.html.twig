@@ -1,0 +1,54 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Modifier une collection{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href={{ asset('styles/ajouter_collection.css') }}>
+{% endblock %}
+
+
+{% block body %}
+    <h1>Modifier Collection</h1>
+    <section id="collection-form">
+        {{ form_start(form) }}
+                {{ form_label(form.titre) }}
+                {{ form_widget(form.titre) }}
+                <div class="error">
+                    {{ form_errors(form.titre) }}
+                </div>
+
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description) }}
+                <div class="error">
+                    {{ form_errors(form.description) }}
+                </div>
+
+                {{ form_label(form.isPublic) }}
+                {{ form_widget(form.isPublic) }}
+                <div class="error">
+                    {{ form_errors(form.isPublic) }}
+                </div>
+                
+                {{ form_label(form.cover) }}
+                {{ form_widget(form.cover) }}
+                <div class="error">
+                    {{ form_errors(form.cover) }}
+                </div>
+
+                <div id="tags">
+                    {{ form_label(form.tags) }}
+                    {{ form_widget(form.tags) }}
+                    <div class="error">
+                        {{ form_errors(form.tags) }}
+                    </div>
+                    <p>Séparer les tags par une virgule</p>
+                </div>
+
+                {{ form_label(form.categorie) }}
+                {{ form_widget(form.categorie) }}
+                <div class="error">
+                    {{ form_errors(form.categorie) }}
+                </div>
+        {{ form_end(form) }}
+    </section>
+{% endblock %}
