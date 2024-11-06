@@ -50,19 +50,13 @@
 				{% else %}
 					<p>Collection rendu public</p>
 				{% endif %}
-				<button class="button">
-					<a href={{"/collection/" ~ collection.getId() ~ "/post/ajouter"}}>Ajouter un post</a>
-				</button>
+				<a class="button" href={{"/collection/" ~ collection.getId() ~ "/post/ajouter"}}>Ajouter un post</a>
 			</div>
 
 		</div>
 		<div id="change-collection">
-			<button id="button-modifier">
-				<a href={{"/collection/" ~ collection.getId() ~ "/modifier"}}>Modifier</a>
-			</button>
-			<button id="button-supprimer">
-				<a href={{"/collection/" ~ collection.getId() ~ "/supprimer"}}>Supprimer</a>
-			</button>
+			<a id="button-modifier" href={{"/collection/" ~ collection.getId() ~ "/modifier"}}>Modifier</a>
+			<a id="button-supprimer" href={{"/collection/" ~ collection.getId() ~ "/supprimer"}}>Supprimer</a>
 		</div>
 	</section>
 
@@ -99,12 +93,8 @@
 						<p>Public</p>
 					{% endif %}
 					<div id="change-collection">
-						<button id="button-modifier">
-							<a href={{"/post/" ~ post.getId() ~ "/modifier"}}>Modifier</a>
-						</button>
-						<button id="button-supprimer">
-							<a href={{"/post/" ~ post.getId() ~ "/supprimer"}}>Supprimer</a>
-						</button>
+						<a id="button-modifier" href={{"/post/" ~ post.getId() ~ "/modifier"}}>Modifier</a>
+						<a id="button-supprimer" href={{"/post/" ~ post.getId() ~ "/supprimer"}}>Supprimer</a>
 					</div>
 				</div>
 			{% endfor %}

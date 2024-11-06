@@ -65,7 +65,7 @@
             {% else %}
                 <p>SiteUrl: <a href={{app.user.siteURL}}><span id="url-profil">{{app.user.siteURL}}</span></a></p>
             {% endif %}
-            <button class="button"><a href="/profil/update">Modifier</a></button>
+            <a class="button" href="/profil/update">Modifier</a>
         </div>
     </section>
 
@@ -103,7 +103,7 @@
                 {% else %}
                     <p>Public</p>
                 {% endif %}
-                <button class="button"><a href={{"/collection/" ~ col.getId()}}>Voir les Posts</a></button>
+                <a class="button" href={{"/collection/" ~ col.getId()}}>Voir les Posts</a>
             </div>
             {% endfor %}
         </div>
