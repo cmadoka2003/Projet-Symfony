@@ -2,32 +2,48 @@
 
 {% block title %}Authentification{% endblock %}
 
-{% block body %}
-    {% if validMessage is defined %}
-        {{validMessage}}
-    {% endif %}
+{% block stylesheets %}
+    <link rel="stylesheet" href={{ asset('styles/inscription.css') }}>
+{% endblock %}
 
-    {% if errorMessage is defined %}
-        {{errorMessage}}
-    {% endif %}
+{% block body %}
+    {% for message in app.flashes('compte-error') %}
+        <div class="message-error">
+            <p>{{message}}</p>
+        </div>
+	{% endfor %}
+
+    {% for message in app.flashes('compte-creation') %}
+		<div class="message-valid">
+            <p>{{message}}</p>
+        </div>
+	{% endfor %}
 
     {{ form_start(form) }}
 
         {{ form_label(form.email) }}
         {{ form_widget(form.email) }}
-        {{ form_errors(form.email) }}
+        <div class="error">
+            {{ form_errors(form.email) }}
+        </div>
 
         {{ form_label(form.pseudo) }}
         {{ form_widget(form.pseudo) }}
-        {{ form_errors(form.pseudo) }}
+        <div class="error">
+            {{ form_errors(form.pseudo) }}
+        </div>
 
         {{ form_label(form.password.first) }}
         {{ form_widget(form.password.first) }}
-        {{ form_errors(form.password.first) }}
+        <div class="error">
+            {{ form_errors(form.password.first) }}
+        </div>
 
         {{ form_label(form.password.second) }}
         {{ form_widget(form.password.second) }}
-        {{ form_errors(form.password.second) }}
+        <div class="error">
+            {{ form_errors(form.password.second) }}
+        </div>
 
     {{ form_end(form) }}
 {% endblock %}

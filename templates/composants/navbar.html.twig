@@ -1,9 +1,16 @@
 <nav>
-    <ul>
+    <div id="navbar-menu-button">
+		<svg width="24" height="24" viewbox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="burger">
+			<line x1="4" x2="20" y1="12" y2="12"/>
+			<line x1="4" x2="20" y1="6" y2="6"/>
+			<line x1="4" x2="20" y1="18" y2="18"/>
+		</svg>
+	</div>
+    <ul id="navbar-menu">
         <li><a href="/">Accueil</a></li>
-        <li><a href="/">Contact</a></li>
         {% if app.user %}
             <li><a href="/profil">Profil</a></li>
+            <li><a href="/collection/ajouter">Collection</a></li>
             <li><a href="/deconnexion">Deconnexion</a></li>
         {% else %}
             <li><a href="/connexion">Connexion</a></li>

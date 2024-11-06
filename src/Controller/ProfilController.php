@@ -3,24 +3,26 @@
 namespace App\Controller;
 
 use App\Form\ProfilForm;
+use App\Repository\CollectionRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProfilController extends AbstractController
 {
     #[Route("/profil", name:"profil_app")]
-    function profil()
+    function profil(CollectionRepository $repo)
     {
         if(!$this->isGranted('IS_AUTHENTICATED_FULLY')){
             return $this->redirectToRoute('connexion_app');
         }
-        return $this->render('pages/profile/index.html.twig');
+        
+        $collection = $repo->findAll();
+        return $this->render('pages/profile/index.html.twig', ["collection" => $collection]);
     }
 
     #[Route("/profil/update", name:"app_modifier_informations")]
@@ -66,6 +68,7 @@ class ProfilController extends AbstractController
             }
 
             $repo->save($update, true);
+            $this->addFlash('compter-modifier','compte modifié avec success');
             return $this->redirectToRoute('profil_app');
         }
         return $this->render('pages/profile/update.html.twig', ["form" => $form]);

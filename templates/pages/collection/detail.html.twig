@@ -1,0 +1,113 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Ajouter une collection
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href={{ asset('styles/detail_collection.css') }}>
+{% endblock %}
+
+{% block body %}
+	{% for message in app.flashes('collection-modifier') %}
+		<div class="message-valid">
+            <p>{{message}}</p>
+        </div>
+	{% endfor %}
+
+	{% for message in app.flashes('post-creation') %}
+		<div class="message-valid">
+            <p>{{message}}</p>
+        </div>
+	{% endfor %}
+
+	{% for message in app.flashes('post-modifier') %}
+		<div class="message-valid">
+            <p>{{message}}</p>
+        </div>
+	{% endfor %}
+
+	{% for message in app.flashes('post-supprimer') %}
+		<div class="message-valid">
+            <p>{{message}}</p>
+        </div>
+	{% endfor %}
+
+	<h1>Collection -
+		{{collection.getTitre()}}</h1>
+	<section class="collection">
+		<div class="collection-item">
+			<div class="part1">
+				{% if collection.getCover() is null %}
+					<img src={{ asset("img/Default_collection.png") }} alt="image par défaut">
+				{% else %}
+					<img src={{ asset("uploads/" ~ collection.getCover()) }} alt="image de la collection">
+				{% endif %}
+			</div>
+			<div class="part2">
+				<p>Categorie :{{collection.getCategorie()}}</p>
+				{% if collection.getIsPublic() is empty %}
+					<p>Collection rendu privé</p>
+				{% else %}
+					<p>Collection rendu public</p>
+				{% endif %}
+				<button class="button">
+					<a href={{"/collection/" ~ collection.getId() ~ "/post/ajouter"}}>Ajouter un post</a>
+				</button>
+			</div>
+
+		</div>
+		<div id="change-collection">
+			<button id="button-modifier">
+				<a href={{"/collection/" ~ collection.getId() ~ "/modifier"}}>Modifier</a>
+			</button>
+			<button id="button-supprimer">
+				<a href={{"/collection/" ~ collection.getId() ~ "/supprimer"}}>Supprimer</a>
+			</button>
+		</div>
+	</section>
+
+	<div class="description">
+		<p>Description de la collection:
+			{{collection.getDescription()}}</p>
+		{% if collection.getTags() is empty %}
+			<p id="Tags">Aucun tag</p>
+		{% else %}
+			<p id="Tags">Tags:
+				{{collection.getTags()}}</p>
+		{% endif %}
+	</div>
+
+	<h2>Posts</h2>
+
+	<section class="post">
+		<div id="post-container">
+			{% for post in collection.getPosts() %}
+				<div class="post-item">
+					<div class="img-container">
+						{% if post.getImage() is null %}
+							<img src={{ asset("img/Default_collection.png") }} alt="image par défaut">
+						{% else %}
+							<img src={{ asset("uploads/" ~ post.getImage()) }} alt="image de la collection">
+						{% endif %}
+					</div>
+					<h3>{{post.getTitre()}}</h3>
+					<p>{{post.getDescription()}}</p>
+					<p>{{post.getDate()}}</p>
+					{% if post.getIsPublic() is empty %}
+						<p>Privé</p>
+					{% else %}
+						<p>Public</p>
+					{% endif %}
+					<div id="change-collection">
+						<button id="button-modifier">
+							<a href={{"/post/" ~ post.getId() ~ "/modifier"}}>Modifier</a>
+						</button>
+						<button id="button-supprimer">
+							<a href={{"/post/" ~ post.getId() ~ "/supprimer"}}>Supprimer</a>
+						</button>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+{% endblock %}

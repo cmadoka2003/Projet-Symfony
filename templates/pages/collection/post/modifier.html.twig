@@ -1,0 +1,37 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Modifier une post
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href={{ asset('styles/post.css') }}>
+{% endblock %}
+
+{% block body %}
+	<h1>Modifier Post</h1>
+	{{ form_start(form) }}
+	{{ form_label(form.titre) }}
+	{{ form_widget(form.titre) }}
+	<div class="error">
+		{{ form_errors(form.titre) }}
+	</div>
+
+	{{ form_label(form.description) }}
+	{{ form_widget(form.description) }}
+	<div class="error">
+		{{ form_errors(form.description) }}
+	</div>
+
+	{{ form_label(form.isPublic) }}
+	{{ form_widget(form.isPublic) }}
+	<div class="error">
+		{{ form_errors(form.isPublic) }}
+	</div>
+
+	{{ form_label(form.image) }}
+	{{ form_widget(form.image) }}
+	<div class="error">
+		{{ form_errors(form.image) }}
+	</div>
+	{{ form_end(form) }}
+{% endblock %}

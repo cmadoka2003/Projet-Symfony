@@ -13,10 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AuthentificationController extends AbstractController
 {
-    #[Route("/authentification", name:"authentification_app")]
+    #[Route("/authentification", name: "authentification_app")]
     function authentification(Request $req, UserRepository $repo, UserPasswordHasherInterface $passwordHasher)
     {
-        if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('profil_app');
         }
 
@@ -26,36 +26,43 @@ class AuthentificationController extends AbstractController
 
         $form->handleRequest($req);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $verif = $repo->findOneBy(["email" => $user->getUserIdentifier()]);
-            if($verif){
-                return $this->render('pages/authentification.html.twig', ["form" => $form, "errorMessage" => "compte deja existant"]);
+            if ($verif) {
+                $this->addFlash('compte-error', 'compte déjà existant');
+                return $this->render('pages/authentification.html.twig', ["form" => $form]);
             }
             $passwordhash = $passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($passwordhash);
             $repo->save($user, true);
-            return $this->render('pages/authentification.html.twig', ["form" => $form, "validMessage" => "compte crée"]);
+            $this->addFlash('compte-creation', 'compte crée avec success');
+            return $this->render('pages/authentification.html.twig', ["form" => $form]);
         }
         return $this->render('pages/authentification.html.twig', ["form" => $form]);
     }
 
-    #[Route("/connexion", name:"connexion_app")]
+    #[Route("/connexion", name: "connexion_app")]
     function connexion(Request $req, UserRepository $repo)
     {
-        if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('profil_app');
         }
+        
         $form = $this->createForm(ConnexionForm::class);
-        $email = $req->request->get("email");
 
-        $verif = $repo->findOneBy(["email" => $email]);
-        if(!$verif){
-            return $this->render('pages/connexion.html.twig', ["form" => $form->createView(), "errorMessage" => "une erreur est survenu"]);
+        if ($form->isSubmitted()) {
+            $email = $req->request->get("email");
+            $verif = $repo->findOneBy(["email" => $email]);
+            if (!$verif) {
+                $this->addFlash('compte-error', 'une erreur est survenu');
+                return $this->render('pages/connexion.html.twig', ["form" => $form->createView()]);
+            }
         }
+
+        $this->addFlash('compte-connexion', 'compte connecté avec success');
         return $this->render('pages/connexion.html.twig', ["form" => $form->createView()]);
     }
 
-    #[Route("/deconnexion", name:"deconnexion_app")]
-    function deconnexion(){}
+    #[Route("/deconnexion", name: "deconnexion_app")]
+    function deconnexion() {}
 }

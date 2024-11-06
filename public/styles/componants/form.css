@@ -1,0 +1,55 @@
+h1 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form label {
+    margin-bottom: 10px;
+}
+
+form input {
+    width: 300px;
+    height: 30px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #333;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.error {
+    color: red;
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.error ul li {
+    list-style: none;
+}
+
+#tags {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#tags p {
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
