@@ -30,4 +30,17 @@ class CollectionRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($collection);
         $this->getEntityManager()->flush();
     }
+
+    public function pagination(int $pages = 0, int $id)
+    {
+        $pagination = $this->createQueryBuilder("c")
+            ->where('c.user_id = :id')
+            ->setParameter('id', $id)
+            ->setMaxResults(10)
+            ->setFirstResult(10 * $pages);
+        
+        $query = $pagination->getQuery();
+
+        return $query->getResult();
+    }
 }

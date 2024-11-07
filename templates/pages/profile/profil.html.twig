@@ -1,0 +1,87 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Profil
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href={{ asset('styles/profile.css') }}>
+{% endblock %}
+
+{% block body %}
+	<h1>{{ user.getPseudo() }}</h1>
+
+	<section class="profil">
+		<div class="image-container">
+			{% if user.getAvatar() is null %}
+				<img src={{ asset("img/Default.jpg") }} alt="image par défaut">
+			{% else %}
+				<img src={{ asset("uploads/" ~ user.getAvatar()) }} alt="image de profil">
+			{% endif %}
+		</div>
+
+		<div class="info-container">
+			<p>Email:
+				{{user.getEmail()}}</p>
+
+			{% if user.getEmploi() is null %}
+				<p>Emploi: N/A</p>
+			{% else %}
+				<p>Emploi:
+					{{user.getEmploi()}}</p>
+			{% endif %}
+
+			{% if user.getPhone() is null %}
+				<p>Phone: N/A</p>
+			{% else %}
+				<p>Phone:
+					{{user.getPhone()}}</p>
+			{% endif %}
+
+			{% if user.getSiteUrl() is null %}
+				<p>SiteUrl: N/A</p>
+			{% else %}
+				<p>SiteUrl:
+					<a href={{user.getSiteUrl() }}>
+						<span id="url-profil">{{user.getSiteUrl() }}</span>
+					</a>
+				</p>
+			{% endif %}
+		</div>
+	</section>
+
+	<div class="description">
+		{% if user.getDescription() is null %}
+			<p>Description du profil: N/A</p>
+		{% else %}
+			<p>Description du profil:
+				{{user.getDescription()}}</p>
+		{% endif %}
+	</div>
+
+	<h2>Ces Collections</h2>
+
+	<section class="collection">
+		<div id="collection-container">
+			{% for col in collection %}
+				{% if  col.getIsPublic() is not empty%}
+					<div class="collection-item">
+						{% if col.getCover() is null %}
+							<img src={{ asset("img/Default_collection.png") }} alt="image par défaut">
+						{% else %}
+							<img src={{ asset("uploads/" ~ col.getCover()) }} alt="image de la collection">
+						{% endif %}
+						<h3>{{col.getTitre()}}</h3>
+						<p>{{col.getDescription()}}</p>
+						<p>{{col.getCategorie()}}</p>
+						{% if col.getTags() is empty %}
+							<p>Aucun tag</p>
+						{% else %}
+							<p>{{col.getTags()}}</p>
+						{% endif %}
+						<a class="button" href={{"/collection/" ~ col.getId()}}>Voir les Posts</a>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</section>
+{% endblock %}

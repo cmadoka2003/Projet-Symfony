@@ -15,13 +15,15 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ProfilController extends AbstractController
 {
     #[Route("/profil", name:"profil_app")]
-    function profil(CollectionRepository $repo)
+    function profil(Request $req, CollectionRepository $repo, UserRepository $userRepo)
     {
         if(!$this->isGranted('IS_AUTHENTICATED_FULLY')){
             return $this->redirectToRoute('connexion_app');
         }
-        
-        $collection = $repo->findAll();
+        $page = $req->query->get("page") ?? 0;
+
+        $user = $userRepo->findByEmail($this->getUser());
+        $collection = $repo->pagination($page, $user->getId());
         return $this->render('pages/profile/index.html.twig', ["collection" => $collection]);
     }
 
@@ -68,7 +70,7 @@ class ProfilController extends AbstractController
             }
 
             $repo->save($update, true);
-            $this->addFlash('compter-modifier','compte modifié avec success');
+            $this->addFlash('compte-modifier','compte modifié avec success');
             return $this->redirectToRoute('profil_app');
         }
         return $this->render('pages/profile/update.html.twig', ["form" => $form]);

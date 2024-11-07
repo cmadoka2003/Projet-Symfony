@@ -15,7 +15,7 @@
         </div>
 	{% endfor %}
 
-    {% for message in app.flashes('compter-modifier') %}
+    {% for message in app.flashes('compte-modifier') %}
 		<div class="message-valid">
             <p>{{message}}</p>
         </div>
@@ -106,6 +106,8 @@
                 <a class="button" href={{"/collection/" ~ col.getId()}}>Voir les Posts</a>
             </div>
             {% endfor %}
+            <a href={{ path('profil_app') }} class="button">1</a>
+            <a href={{ path('profil_app', {page: 1}) }} class="button">2</a>
         </div>
     </section>
 {% endblock %}

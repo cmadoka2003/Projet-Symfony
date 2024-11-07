@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CollectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: CollectionRepository::class)]
 class Collection
@@ -37,6 +38,10 @@ class Collection
 
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'collection', cascade:['persist', "remove"])]
     private $posts;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "collection")]
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    private $user;
 
     public function __construct()
     {
@@ -141,5 +146,17 @@ class Collection
     {
         $posts->setCollection($this);
         $this->posts->add($posts);
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
