@@ -31,6 +31,9 @@ class Post
     #[ORM\ManyToOne(targetEntity: Collection::class, inversedBy: "posts")]
     private $collection;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: "postLikes")]
+    private $userLikes;
+
     public function getId()
     {
         return $this->id;
@@ -104,6 +107,18 @@ class Post
     public function setCollection($collection)
     {
         $this->collection = $collection;
+
+        return $this;
+    }
+
+    public function getUserLikes()
+    {
+        return $this->userLikes;
+    }
+
+    public function setUserLikes($userLikes)
+    {
+        $this->userLikes = $userLikes;
 
         return $this;
     }

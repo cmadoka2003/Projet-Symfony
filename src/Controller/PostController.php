@@ -53,7 +53,7 @@ class PostController extends AbstractController
             $collection->addPosts($post);
             $collectionRepo->save($collection, true);
             $this->addFlash('post-creation','post crée avec success');
-            return $this->redirectToRoute('app_detail_collection', ["id" => $post->getCollection()->getId()]);
+            return $this->redirectToRoute('app_collection_detail', ["id" => $post->getCollection()->getId()]);
         }
         
         return $this->render('pages/collection/post/ajouter.html.twig', ["form" => $form]);
@@ -94,7 +94,7 @@ class PostController extends AbstractController
             $post->setDate(date("Y-m-d H:i:s"));
             $repo->save($post, true);
             $this->addFlash('post-modifier','Post modifié avec success');
-            return $this->redirectToRoute('app_detail_collection', ["id" => $post->getCollection()->getId()]);
+            return $this->redirectToRoute('app_collection_detail', ["id" => $post->getCollection()->getId()]);
         }
         
         return $this->render('pages/collection/post/modifier.html.twig', ["form" => $form]);
@@ -116,6 +116,6 @@ class PostController extends AbstractController
 
         $repo->delete($post);
         $this->addFlash('post-supprimer','Post supprimé avec success');
-        return $this->redirectToRoute('app_detail_collection', ["id" => $post->getCollection()->getId()]);
+        return $this->redirectToRoute('app_collection_detail', ["id" => $post->getCollection()->getId()]);
     }
 }

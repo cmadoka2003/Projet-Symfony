@@ -46,9 +46,16 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\OneToMany(targetEntity: Collection::class, mappedBy: 'user', cascade:['persist', "remove"])]
     private $collection;
 
+    #[ORM\OneToMany(targetEntity: Commentaires::class, mappedBy: 'user', cascade:['persist', "remove"])]
+    private $commentaires;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: "userLikes")]
+    private $postLikes;
+
     public function __construct()
     {
         $this->collection = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     public function getId()
@@ -177,5 +184,28 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     {
         $collection->setUser($this);
         $this->collection->add($collection);
+    }
+
+    public function getCommentaires()
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaires(Commentaires $commentaires)
+    {
+        $commentaires->setUser($this);
+        $this->commentaires->add($commentaires);
+    }
+
+    public function getPostLikes()
+    {
+        return $this->postLikes;
+    }
+
+    public function setPostLikes($postLikes)
+    {
+        $this->postLikes = $postLikes;
+
+        return $this;
     }
 }

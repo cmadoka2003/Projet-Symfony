@@ -100,4 +100,21 @@
 			{% endfor %}
 		</div>
 	</section>
+
+	<hr>
+
+	<section class="commentaire">
+		<div class="commentaire-form">
+			<h2>Commentaires</h2>
+		</div>
+		<div id="commentaire-container">
+			{% for commentaire in collection.getCommentaires() %}
+				<div class="commentaire-item">
+					<a href={{'/show/profil/' ~ commentaire.getUser().getId()}}>{{commentaire.getUser().getPseudo()}}</a>
+					<p>{{commentaire.getDate()}}</p>
+					<p>{{commentaire.getContenu()}}</p>
+				</div>
+			{% endfor %}
+		</div>
+	</section>
 {% endblock %}

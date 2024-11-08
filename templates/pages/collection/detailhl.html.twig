@@ -46,6 +46,7 @@
 	<section class="post">
 		<div id="post-container">
 			{% for post in collection.getPosts() %}
+				{% if post.getIsPublic() is not empty %}
 				<div class="post-item">
 					<div class="img-container">
 						{% if post.getImage() is null %}
@@ -57,11 +58,34 @@
 					<h3>{{post.getTitre()}}</h3>
 					<p>{{post.getDescription()}}</p>
 					<p>{{post.getDate()}}</p>
-					{% if post.getIsPublic() is empty %}
-						<p>Privé</p>
-					{% else %}
-						<p>Public</p>
+				</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</section>
+
+	<hr>
+
+	<section class="commentaire">
+		<div class="commentaire-form">
+			<h2>Commentaires</h2>
+			<p>Ajouter un commentaire</p>
+			<form action={{"/collection/commentaire/" ~ collection.getId() }} method="post">
+				<input type="text" name="contenu" placeholder="Votre commentaire">
+				<input type="submit" value="Envoyer" class="bouton">
+			</form>
+		</div>
+		<div class="commentaire-container">
+			{% for commentaire in collection.getCommentaires() %}
+				<div class="commentaire-item">
+					<a href={{'/show/profil/' ~ commentaire.getUser().getId()}}>{{commentaire.getUser().getPseudo()}}</a>
+					<p>{{commentaire.getContenu()}}</p>
+					<p>{{commentaire.getDate()}}</p>
+				{% if app.user %}
+					{% if app.user.id ==  commentaire.getUser().getId() %}
+						<a href={{'/commentaire/' ~ commentaire.getId() ~ '/supprimer'}}>Supprimer</a>
 					{% endif %}
+				{% endif %}
 				</div>
 			{% endfor %}
 		</div>

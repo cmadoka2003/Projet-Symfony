@@ -149,6 +149,31 @@ h1, h2 {
     text-overflow: ellipsis;
 }
 
+.commentaire-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.commentaire-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.commentaire-item {
+    width: 80%;
+    margin: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #eeecec;
+}
+
 @media screen and (max-width: 800px) {
     .collection {
         flex-direction: column;

@@ -41,9 +41,13 @@ class Collection
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "collection")]
     private $user;
 
+    #[ORM\OneToMany(targetEntity: Commentaires::class, mappedBy: 'collection', cascade:['persist', "remove"])]
+    private $commentaires;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     public function getId()
@@ -156,5 +160,16 @@ class Collection
         $this->user = $user;
 
         return $this;
+    }
+
+    public function getCommentaires()
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaires(Commentaires $commentaires)
+    {
+        $commentaires->setUser($this);
+        $this->commentaires->add($commentaires);
     }
 }
