@@ -38,6 +38,9 @@ class Collection
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'collection', cascade:['persist', "remove"])]
     private $posts;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "collection")]
+    private $user;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -141,5 +144,17 @@ class Collection
     {
         $posts->setCollection($this);
         $this->posts->add($posts);
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }

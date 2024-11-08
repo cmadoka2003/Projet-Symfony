@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserRepository extends ServiceEntityRepository
 {
@@ -23,5 +24,10 @@ class UserRepository extends ServiceEntityRepository
         }
 
         return $nouveauUser;
+    }
+
+    function findByEmail(UserInterface $user)
+    {
+        return $this->findOneBy(["email" => $user->getUserIdentifier()]);
     }
 }

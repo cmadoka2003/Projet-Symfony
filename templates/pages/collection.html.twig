@@ -1,0 +1,81 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Profil
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href={{ asset('styles/profile.css') }}>
+{% endblock %}
+
+{% block body %}
+	<h2>Derniers collections</h2>
+
+	<div class="search">
+		<form action="" method="GET">
+			<input type="text" name="q" id="q" class="search-widget">
+			<input type="submit" value="recherche" class="button">
+		</form>
+	</div>
+
+	<section class="collection">
+		<div id="collection-container">
+			{% if app.request.get('q') is null %}
+				{% for col in collection %}
+
+					<div class="collection-item">
+						{% if col.getCover() is null %}
+							<img src={{ asset("img/Default_collection.png") }} alt="image par défaut">
+						{% else %}
+							<img src={{ asset("uploads/" ~ col.getCover()) }} alt="image de la collection">
+						{% endif %}
+						<h3>{{col.getTitre()}}</h3>
+						<p>{{col.getDescription()}}</p>
+						<p>{{col.getCategorie()}}</p>
+						{% if col.getTags() is empty %}
+							<p>Aucun tag</p>
+						{% else %}
+							<p>{{col.getTags()}}</p>
+						{% endif %}
+						<a class="button" href={{"/collection/detail/" ~ col.getId()}}>Voir les Posts</a>
+					</div>
+
+				{% endfor %}
+			</div>
+			<div class="padgi">
+				{% for i in 0..total %}
+					<a href={{ path('accueil_app', { page: i } ) }} class="button">{{i+1}}</a>
+				{% endfor %}
+			</div>
+		{% else %}
+			{% if collection is empty %}
+				<p>Aucune collection ne correspond à votre recherche</p>
+			{% else %}
+				{% for col in collection %}
+
+					<div class="collection-item">
+						{% if col.getCover() is null %}
+							<img src={{ asset("img/Default_collection.png") }} alt="image par défaut">
+						{% else %}
+							<img src={{ asset("uploads/" ~ col.getCover()) }} alt="image de la collection">
+						{% endif %}
+						<h3>{{col.getTitre()}}</h3>
+						<p>{{col.getDescription()}}</p>
+						<p>{{col.getCategorie()}}</p>
+						{% if col.getTags() is empty %}
+							<p>Aucun tag</p>
+						{% else %}
+							<p>{{col.getTags()}}</p>
+						{% endif %}
+						<a class="button" href={{"/collection/detail/" ~ col.getId()}}>Voir les Posts</a>
+					</div>
+
+				{% endfor %}
+			</div>
+			<div class="padgi">
+				{% for i in 0..total %}
+					<a href={{ path('accueil_app', { page: i, q: app.request.get('q')} ) }} class="button">{{i+1}}</a>
+				{% endfor %}
+			</div>
+		{% endif %}
+	{% endif %}
+</section>{% endblock %}

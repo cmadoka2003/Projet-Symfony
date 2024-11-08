@@ -8,8 +8,9 @@
 	</div>
     <ul id="navbar-menu">
         <li><a href="/">Accueil</a></li>
+        <li><a href="/liste/profil">Profils</a></li>
         {% if app.user %}
-            <li><a href="/profil">Profil</a></li>
+            <li><a href="/profil">Vous</a></li>
             <li><a href="/collection/ajouter">Collection</a></li>
             <li><a href="/deconnexion">Deconnexion</a></li>
         {% else %}

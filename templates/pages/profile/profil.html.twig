@@ -8,87 +8,57 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Mon Profil</h1>
-
-	{% for message in app.flashes('compte-connexion') %}
-		<div class="message-valid">
-			<p>{{message}}</p>
-		</div>
-	{% endfor %}
-
-	{% for message in app.flashes('compte-modifier') %}
-		<div class="message-valid">
-			<p>{{message}}</p>
-		</div>
-	{% endfor %}
-
-	{% for message in app.flashes('collection-creation') %}
-		<div class="message-valid">
-			<p>{{message}}</p>
-		</div>
-	{% endfor %}
-
-	{% for message in app.flashes('collection-supprimer') %}
-		<div class="message-valid">
-			<p>{{message}}</p>
-		</div>
-	{% endfor %}
+	<h1>{{ user.getPseudo() }}</h1>
 
 	<section class="profil">
 		<div class="image-container">
-			{% if app.user.avatar is null %}
+			{% if user.getAvatar() is null %}
 				<img src={{ asset("img/Default.jpg") }} alt="image par défaut">
 			{% else %}
-				<img src={{ asset("uploads/" ~ app.user.avatar) }} alt="image de profil">
+				<img src={{ asset("uploads/" ~ user.getAvatar()) }} alt="image de profil">
 			{% endif %}
 		</div>
 
 		<div class="info-container">
-			<div>
-				<p>Pseudo:
-					<span id="pseudo">{{ app.user.pseudo }}</span>
-				</p>
-			</div>
 			<p>Email:
-				{{app.user.email}}</p>
+				{{user.getEmail()}}</p>
 
-			{% if app.user.emploi is null %}
+			{% if user.getEmploi() is null %}
 				<p>Emploi: N/A</p>
 			{% else %}
 				<p>Emploi:
-					{{app.user.emploi}}</p>
+					{{user.getEmploi()}}</p>
 			{% endif %}
 
-			{% if app.user.phone is null %}
+			{% if user.getPhone() is null %}
 				<p>Phone: N/A</p>
 			{% else %}
 				<p>Phone:
-					{{app.user.phone}}</p>
+					{{user.getPhone()}}</p>
 			{% endif %}
 
-			{% if app.user.siteURL is null %}
+			{% if user.getSiteUrl() is null %}
 				<p>SiteUrl: N/A</p>
 			{% else %}
 				<p>SiteUrl:
-					<a href={{app.user.siteURL}}>
-						<span id="url-profil">{{app.user.siteURL}}</span>
+					<a href={{user.getSiteUrl() }}>
+						<span id="url-profil">{{user.getSiteUrl() }}</span>
 					</a>
 				</p>
 			{% endif %}
-			<a class="button" href="/profil/update">Modifier</a>
 		</div>
 	</section>
 
 	<div class="description">
-		{% if app.user.description is null %}
+		{% if user.getDescription() is null %}
 			<p>Description du profil: N/A</p>
 		{% else %}
 			<p>Description du profil:
-				{{app.user.description}}</p>
+				{{user.getDescription()}}</p>
 		{% endif %}
 	</div>
 
-	<h2>Mes Collections</h2>
+	<h2>Ces Collections</h2>
 
 	<div class="search">
 		<form action="" method="GET">

@@ -1,10 +1,75 @@
 {% extends 'pages/layout.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Accueil
+{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href={{ asset('styles/accueil.css') }}>
+	<link rel="stylesheet" href={{ asset('styles/accueil.css') }}>
 {% endblock %}
 
 {% block body %}
+	{% if app.user %}
+		<h1>liste des profils</h1>
+		<section id="list-profil">
+			<div id="profil-container">
+				{% for user in users %}
+					{% if app.user.email != user.email %}
+						<div class="profil-item">
+							<div class="image-container">
+								{% if user.getAvatar() is null %}
+									<img src={{ asset("img/Default.jpg") }} alt="image par défaut">
+								{% else %}
+									<img src={{ asset("uploads/" ~ user.getAvatar()) }} alt="image de profil">
+								{% endif %}
+							</div>
+							<div class="info-container">
+								<h3>{{user.getPseudo()}}</h3>
+								<p>Email:
+									{{user.getEmail()}}</p>
+
+								{% if user.getEmploi() is null %}
+									<p>Emploi: N/A</p>
+								{% else %}
+									<p>Emploi:
+										{{user.getEmploi()}}</p>
+								{% endif %}
+							</div>
+							<a class="button" href={{"/show/profil/" ~ user.getId()}}>Voir profil</a>
+						</div>
+					{% endif %}
+
+				{% endfor %}
+			</div>
+		</section>
+	{% else %}
+		<h1>liste des profils</h1>
+		<section id="list-profil">
+			<div id="profil-container">
+				{% for user in users %}
+					<div class="profil-item">
+						<div class="image-container">
+							{% if user.getAvatar() is null %}
+								<img src={{ asset("img/Default.jpg") }} alt="image par défaut">
+							{% else %}
+								<img src={{ asset("uploads/" ~ user.getAvatar()) }} alt="image de profil">
+							{% endif %}
+						</div>
+						<div class="info-container">
+							<h3>{{user.getPseudo()}}</h3>
+							<p>Email:
+								{{user.getEmail()}}</p>
+
+							{% if user.getEmploi() is null %}
+								<p>Emploi: N/A</p>
+							{% else %}
+								<p>Emploi:
+									{{user.getEmploi()}}</p>
+							{% endif %}
+						</div>
+						<a class="button" href={{"/show/profil/" ~ user.getId()}}>Voir profil</a>
+					</div>
+				{% endfor %}
+			</div>
+		</section>
+	{% endif %}
 {% endblock %}

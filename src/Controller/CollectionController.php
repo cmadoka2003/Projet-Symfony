@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Collection;
 use App\Form\CollectionForm;
 use App\Repository\CollectionRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -15,11 +16,13 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class CollectionController extends AbstractController
 {
     #[Route("/collection/ajouter", name:"app_ajouter_collection")]
-    function collection(Request $req, CollectionRepository $repo, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads')] string $avatarDirectory)
+    function collection(UserRepository $userRepo, Request $req, CollectionRepository $repo, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads')] string $avatarDirectory)
     {
         if(!$this->isGranted('IS_AUTHENTICATED_FULLY')){
             return $this->redirectToRoute('connexion_app');
         }
+
+        $user = $userRepo->findOneBy(["email" => $user = $this->getUser()->getUserIdentifier()]);
 
         $collection = new Collection();
 
@@ -52,7 +55,9 @@ class CollectionController extends AbstractController
             // met la date et l'heure au moment de la création de la collection
             $collection->setDate(date("Y-m-d H:i:s"));
 
-            $repo->save($collection, true);
+            $user->addCollection($collection);
+
+            $userRepo->save($user, true);
             $this->addFlash('collection-creation','collection crée avec success');
             return $this->redirectToRoute('profil_app');
         }
@@ -130,7 +135,7 @@ class CollectionController extends AbstractController
         return $this->redirectToRoute('profil_app');
     }
 
-    #[Route("/collection/{id}", name:"app_detail_collection")]
+    #[Route("/collection/{id}", name:"app_collection_detail")]
     function showpost(CollectionRepository $repo, $id)
     {
         if(!$this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -145,5 +150,18 @@ class CollectionController extends AbstractController
         }
 
         return $this->render('pages/collection/detail.html.twig', ["collection" => $collection]);
+    }
+
+    #[Route("/collection/detail/{id}", name:"app_detail_collection")]
+    function showpostdetail(CollectionRepository $repo, $id)
+    {
+        $collection = $repo->find($id);
+
+        if(!$collection)
+        {
+            return $this->redirectToRoute('profil_app');
+        }
+
+        return $this->render('pages/collection/detailhl.html.twig', ["collection" => $collection]);
     }
 }

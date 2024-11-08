@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -41,6 +42,14 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     
     #[ORM\Column(length: 255, nullable:true)]
     private ?string $siteURL = null;
+
+    #[ORM\OneToMany(targetEntity: Collection::class, mappedBy: 'user', cascade:['persist', "remove"])]
+    private $collection;
+
+    public function __construct()
+    {
+        $this->collection = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -157,5 +166,16 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function eraseCredentials(): void
     {
         
+    }
+
+    public function getCollection()
+    {
+        return $this->collection;
+    }
+
+    public function addCollection(Collection $collection)
+    {
+        $collection->setUser($this);
+        $this->collection->add($collection);
     }
 }
