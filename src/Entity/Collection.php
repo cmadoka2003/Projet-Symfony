@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\CollectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: CollectionRepository::class)]
 class Collection
@@ -40,7 +39,6 @@ class Collection
     private $posts;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "collection")]
-    #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private $user;
 
     public function __construct()

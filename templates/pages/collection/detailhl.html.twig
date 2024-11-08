@@ -1,0 +1,69 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Ajouter une collection
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href={{ asset('styles/detail_collection.css') }}>
+{% endblock %}
+
+{% block body %}
+	<h1>Collection -
+		{{collection.getTitre()}}</h1>
+	<section class="collection">
+		<div class="collection-item">
+			<div class="part1">
+				{% if collection.getCover() is null %}
+					<img src={{ asset("img/Default_collection.png") }} alt="image par défaut">
+				{% else %}
+					<img src={{ asset("uploads/" ~ collection.getCover()) }} alt="image de la collection">
+				{% endif %}
+			</div>
+			<div class="part2">
+				<p>Categorie :{{collection.getCategorie()}}</p>
+				{% if collection.getIsPublic() is empty %}
+					<p>Collection rendu privé</p>
+				{% else %}
+					<p>Collection rendu public</p>
+				{% endif %}
+			</div>
+		</div>
+	</section>
+
+	<div class="description">
+		<p>Description de la collection:
+			{{collection.getDescription()}}</p>
+		{% if collection.getTags() is empty %}
+			<p id="Tags">Aucun tag</p>
+		{% else %}
+			<p id="Tags">Tags:
+				{{collection.getTags()}}</p>
+		{% endif %}
+	</div>
+
+	<h2>Posts</h2>
+
+	<section class="post">
+		<div id="post-container">
+			{% for post in collection.getPosts() %}
+				<div class="post-item">
+					<div class="img-container">
+						{% if post.getImage() is null %}
+							<img src={{ asset("img/Default_collection.png") }} alt="image par défaut">
+						{% else %}
+							<img src={{ asset("uploads/" ~ post.getImage()) }} alt="image de la collection">
+						{% endif %}
+					</div>
+					<h3>{{post.getTitre()}}</h3>
+					<p>{{post.getDescription()}}</p>
+					<p>{{post.getDate()}}</p>
+					{% if post.getIsPublic() is empty %}
+						<p>Privé</p>
+					{% else %}
+						<p>Public</p>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+{% endblock %}

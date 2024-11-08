@@ -21,10 +21,21 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('connexion_app');
         }
         $page = $req->query->get("page") ?? 0;
-
+        $recherche = $req->query->get("q") ?? null;
         $user = $userRepo->findByEmail($this->getUser());
+
+        if($recherche)
+        {
+            $collection = $repo->rechercheQueryProfile($recherche, $page, $user->getId());
+            $totalcollection = $repo->rechercheQueryProfileCountAll($recherche, $user->getId());
+            $totalPages = ceil($totalcollection / 10 - 1);
+            return $this->render('pages/profile/index.html.twig', ["collection" => $collection, "total" => $totalPages, "recherche" => $recherche]);
+        }
+        
         $collection = $repo->pagination($page, $user->getId());
-        return $this->render('pages/profile/index.html.twig', ["collection" => $collection]);
+        $totalcollection = $repo->paginationCountAll($user->getId());
+        $totalPages = ceil($totalcollection / 10 - 1);
+        return $this->render('pages/profile/index.html.twig', ["collection" => $collection, "total" => $totalPages]);
     }
 
     #[Route("/profil/update", name:"app_modifier_informations")]
@@ -74,5 +85,33 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('profil_app');
         }
         return $this->render('pages/profile/update.html.twig', ["form" => $form]);
+    }
+
+    #[Route("/liste/profil", name:"accueil_profil_app")]
+    function accueil(UserRepository $repo)
+    {
+        $user = $repo->findAll();
+        return $this->render('pages/index.html.twig', ["users" => $user]);
+    }
+
+    #[Route("/show/profil/{id}", name:"profil_show_app")]
+    function showprofil(UserRepository $repo, $id, Request $req, CollectionRepository $collectionRepository)
+    {
+        $user = $repo->find($id);
+        $page = $req->query->get("page") ?? 0;
+        $recherche = $req->query->get("q") ?? null;
+
+        if($recherche)
+        {
+            $collection = $collectionRepository->rechercheQueryViewer($recherche, $page, $id);
+            $totalcollection = $collectionRepository->rechercheQueryViewerCountAll($recherche, $id);
+            $totalPages = ceil($totalcollection / 10 - 1);
+            return $this->render('pages/profile/profil.html.twig', ["user" => $user, "collection" => $collection, "total" => $totalPages, "recherche" => $recherche]);
+        }
+
+        $collection = $collectionRepository->paginationWiewer($page, $id);
+        $totalcollection = $collectionRepository->paginationWiewerCountAll($id);
+        $totalPages = ceil($totalcollection / 10 - 1);
+        return $this->render('pages/profile/profil.html.twig', ["user" => $user, "collection" => $collection, "total" => $totalPages]);
     }
 }

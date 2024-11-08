@@ -2,24 +2,30 @@
 
 namespace App\Controller;
 
-use App\Repository\UserRepository;
+use App\Repository\CollectionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AccueilController extends AbstractController
 {
     #[Route("/", name:"accueil_app")]
-    function accueil(UserRepository $repo)
+    function accueil(CollectionRepository $collectionRepository, Request $req)
     {
-        $user = $repo->findAll();
-        return $this->render('pages/index.html.twig', ["users" => $user]);
-    }
+        $page = $req->query->get("page") ?? 0;
+        $recherche = $req->query->get("q") ?? null;
 
-    #[Route("/show/profil/{id}", name:"profil_show_app")]
-    function showprofil(UserRepository $repo, $id)
-    {
-        $user = $repo->find($id);
-        $collection = $user->getCollection();
-        return $this->render('pages/profile/profil.html.twig', ["user" => $user, "collection" => $collection]);
+        if($recherche)
+        {
+            $collection = $collectionRepository->rechercheQuery($recherche, $page);
+            $totalcollection = $collectionRepository->rechercheQueryCountAll($recherche);
+            $totalPages = ceil($totalcollection / 10 - 1);
+            return $this->render('pages/collection.html.twig', ["collection" => $collection, "total" => $totalPages, "recherche" => $recherche]);
+        }
+
+        $collection = $collectionRepository->showCollection($page);
+        $totalcollection = $collectionRepository->countAll();
+        $totalPages = ceil($totalcollection / 10 - 1);
+        return $this->render('pages/collection.html.twig', ["collection" => $collection, "total" => $totalPages]);
     }
 }

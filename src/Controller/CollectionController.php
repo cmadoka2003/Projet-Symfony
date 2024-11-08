@@ -135,7 +135,7 @@ class CollectionController extends AbstractController
         return $this->redirectToRoute('profil_app');
     }
 
-    #[Route("/collection/{id}", name:"app_detail_collection")]
+    #[Route("/collection/{id}", name:"app_collection_detail")]
     function showpost(CollectionRepository $repo, $id)
     {
         if(!$this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -150,5 +150,18 @@ class CollectionController extends AbstractController
         }
 
         return $this->render('pages/collection/detail.html.twig', ["collection" => $collection]);
+    }
+
+    #[Route("/collection/detail/{id}", name:"app_detail_collection")]
+    function showpostdetail(CollectionRepository $repo, $id)
+    {
+        $collection = $repo->find($id);
+
+        if(!$collection)
+        {
+            return $this->redirectToRoute('profil_app');
+        }
+
+        return $this->render('pages/collection/detailhl.html.twig', ["collection" => $collection]);
     }
 }
